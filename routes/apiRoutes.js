@@ -1,7 +1,10 @@
-const router = require("express").Router();
+const express = require("express");
+// const app = require("express").app();
 const Workouts = require("../models/workouts.js");
 
-router.post("/public/workouts", ({ body }, res) => {
+const app = express();
+
+app.post("/public/workouts", ({ body }, res) => {
   Workouts.create(body)
     .then(dbWorkouts => {
       res.json(dbWorkouts);
@@ -11,7 +14,7 @@ router.post("/public/workouts", ({ body }, res) => {
     });
 });
 
-router.post("/public/workouts/bulk", ({ body }, res) => {
+app.post("/public/workouts/bulk", ({ body }, res) => {
   Workouts.insertMany(body)
     .then(dbWorkouts => {
       res.json(dbWorkouts);
@@ -21,7 +24,7 @@ router.post("/public/workouts/bulk", ({ body }, res) => {
     });
 });
 
-router.get("/public/workouts", (req, res) => {
+app.get("/public/workouts", (req, res) => {
   Workouts.find({})
     .sort({ date: -1 })
     .then(dbWorkouts => {
@@ -32,4 +35,4 @@ router.get("/public/workouts", (req, res) => {
     });
 });
 
-module.exports = router;
+module.exports = app;
